@@ -83,6 +83,24 @@ The env var named by `tokenEnv` must exist in the environment that starts `dsh w
 - iLink only allows **replying** to an inbound message (it carries `context_token`); proactive pushes return `ret=-2` and are not supported.
 - Loopback is kept out of any system proxy by adding `127.0.0.1` / `localhost` to `NO_PROXY`.
 
+## Proactive push (optional)
+
+The bridge stores the newest `context_token` per user in
+`$DSH_HOME/dsh-bot-im-bridge/state.json`. A small script reuses it to push a
+message without waiting for an inbound one:
+
+```sh
+node scripts/push.mjs "Build finished."
+node scripts/push.mjs "Build finished." --user o9cq...@im.wechat
+```
+
+Exit codes: `0` sent; `2` no token or the token expired (iLink answers
+`ret=-2`) — fall back to the GUI; `3` bad arguments.
+
+A token comes from the last inbound message and stays valid for a while
+(measured: accepted 10 minutes after the message; longer windows vary), so a
+push only works if the user talked to the Bot recently enough.
+
 ## Security
 
 - An empty allowlist refuses to start, so it can never become an open gateway.

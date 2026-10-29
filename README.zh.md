@@ -88,6 +88,21 @@ dsh plugin --profile web add D:\l4place\Workspace\dsh-bot-im-bridge
 - iLink **只允许回复**带 `context_token` 的入站消息；主动推送会返回 `ret=-2`，不支持。
 - 启动时把 `127.0.0.1` / `localhost` 加进 `NO_PROXY`，避免本机请求被系统代理劫走。
 
+## 主动推送（可选）
+
+插件会把每个用户最新的 `context_token` 存进
+`$DSH_HOME/dsh-bot-im-bridge/state.json`。一个小脚本复用它，不用等入站消息也能发：
+
+```sh
+node scripts/push.mjs "构建完成了"
+node scripts/push.mjs "构建完成了" --user o9cq...@im.wechat
+```
+
+退出码：`0` 已发送；`2` 没有 token 或 token 已过期（iLink 返回 `ret=-2`），应退回 GUI；`3` 参数错误。
+
+token 来自最近一次入站消息，能活一段时间（实测发消息后 10 分钟仍可推；更长的窗口不稳定），
+所以只有用户最近跟 Bot 说过话，主动推送才发得出去。
+
 ## 安全
 
 - 白名单为空直接拒绝启动，避免变成对外的开放网关。

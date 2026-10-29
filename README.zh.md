@@ -84,7 +84,9 @@ dsh plugin --profile web add D:\l4place\Workspace\dsh-bot-im-bridge
 - **一个微信机器人 ↔ 一个 DS Bot**。多对多以后再说。
 - **只取最后一条 Bot 消息**作为回复；Bot 中间的过程说明不会逐条推送。
 - 依赖 DS Bot 的 `POST /api/bot` 接口；它若改名，本插件要跟着改。
-- 进程内通过 `ctx.connection.fetch` + `ctx.connection.browserPeer` 调该接口，不占端口、不用 token。
+- 通过 **loopback HTTP** 调该接口，用启动令牌换浏览器 cookie（Windows 上 tee 日志是 UTF-16LE）。不依赖插件内部 API。
+- iLink **只允许回复**带 `context_token` 的入站消息；主动推送会返回 `ret=-2`，不支持。
+- 启动时把 `127.0.0.1` / `localhost` 加进 `NO_PROXY`，避免本机请求被系统代理劫走。
 
 ## 安全
 

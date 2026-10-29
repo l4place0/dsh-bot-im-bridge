@@ -79,7 +79,9 @@ The env var named by `tokenEnv` must exist in the environment that starts `dsh w
 - **One WeChat bot <-> one DS Bot.**
 - Only the **last** Bot message is sent; intermediate progress notes are not pushed one by one.
 - Depends on DS Bot's `POST /api/bot` route.
-- Calls that route in-process via `ctx.connection.fetch` + `ctx.connection.browserPeer` — no port, no token.
+- Calls `/api/bot` over **loopback HTTP** with a browser cookie bootstrapped from the harness launch token (the Windows tee log is UTF-16LE). No plugin-internal API is used.
+- iLink only allows **replying** to an inbound message (it carries `context_token`); proactive pushes return `ret=-2` and are not supported.
+- Loopback is kept out of any system proxy by adding `127.0.0.1` / `localhost` to `NO_PROXY`.
 
 ## Security
 

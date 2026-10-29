@@ -1,0 +1,6 @@
+node_modules/
+*.log
+.DS_Store
+.dsh-bot-im-bridge/
+state.json
+.env

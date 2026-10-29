@@ -1,0 +1,53 @@
+{
+  "name": "dsh-bot-im-bridge",
+  "version": "0.1.0",
+  "description": "Bridge WeChat (iLink bot) to a DS Bot, so you can talk to a DS Bot from WeChat. A DeepSeek Harness plugin.",
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "dsh-plugin",
+    "ds-bot",
+    "wechat",
+    "weixin",
+    "im",
+    "bridge"
+  ],
+  "homepage": "https://github.com/l4place0/dsh-bot-im-bridge#readme",
+  "bugs": {
+    "url": "https://github.com/l4place0/dsh-bot-im-bridge/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/l4place0/dsh-bot-im-bridge.git"
+  },
+  "license": "MIT",
+  "author": "l4place0",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "README.md",
+    "README.zh.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22.19"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "*"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "scripts": {
+    "check": "node --check lib/index.js && node --check lib/weixin.js && node --check lib/dsbot.js && node --check lib/bridge.js && node --check lib/config.js",
+    "test": "node --test test/"
+  }
+}

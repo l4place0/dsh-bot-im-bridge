@@ -1,0 +1,7 @@
+# Mounts the WeChat <-> DS Bot bridge into a DeepSeek Harness profile.
+#
+# It adds one host plugin. Configure it under the plugin's `config` in your
+# profile patch; see README for the fields.
+- insert:
+    - id: dsh-bot-im-bridge
+      name: dsh-bot-im-bridge

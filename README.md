@@ -91,8 +91,11 @@ message without waiting for an inbound one:
 
 ```sh
 node scripts/push.mjs "Build finished."
-node scripts/push.mjs "Build finished." --user o9cq...@im.wechat
+node scripts/push.mjs --file message.txt --user o9cq...@im.wechat
 ```
+
+`--file` reads the text from a UTF-8 file, which avoids quoting and codepage
+problems when the message contains non-ASCII text.
 
 Exit codes: `0` sent; `2` no token or the token expired (iLink answers
 `ret=-2`) — fall back to the GUI; `3` bad arguments.

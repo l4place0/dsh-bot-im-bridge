@@ -17,12 +17,24 @@ import path from 'node:path'
 import { sendText, WeixinError } from '../lib/weixin.js'
 
 const args = process.argv.slice(2)
-const text = args.find(a => !a.startsWith('--'))
 const userFlag = args.indexOf('--user')
+const fileFlag = args.indexOf('--file')
 const wantUser = userFlag >= 0 ? args[userFlag + 1] : process.env.DSH_BOT_IM_PUSH_USER
+let text
+if (fileFlag >= 0) {
+  const file = args[fileFlag + 1]
+  try {
+    text = fs.readFileSync(file, 'utf8').trim()
+  } catch (error) {
+    console.error(`cannot read ${file}: ${error.message}`)
+    process.exit(3)
+  }
+} else {
+  text = args.find(a => !a.startsWith('--'))
+}
 
 if (!text) {
-  console.error('usage: node scripts/push.mjs "text" [--user <wechatUserId>]')
+  console.error('usage: node scripts/push.mjs "text" | --file <path> [--user <wechatUserId>]')
   process.exit(3)
 }
 
